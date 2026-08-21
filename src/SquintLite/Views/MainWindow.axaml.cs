@@ -1,14 +1,14 @@
-using System.ComponentModel;
+using System;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Media;
+using SquintLite.Services;
 using SquintLite.ViewModels;
 
 namespace SquintLite.Views;
 
 public partial class MainWindow : Window
 {
-    private EyedropperOverlayWindow? _overlay;
     private MainViewModel? _vm;
 
     public MainWindow()
@@ -23,29 +23,8 @@ public partial class MainWindow : Window
         if (DataContext is not MainViewModel vm) return;
         _vm = vm;
 
-        vm.EyedropperStarted += OnEyedropperStarted;
-        vm.EyedropperCompleted += OnEyedropperCompleted;
-        vm.HoverColorChanged += OnHoverColorChanged;
-    }
-
-    private void OnEyedropperStarted(object? sender, System.EventArgs e)
-    {
-        _overlay = new EyedropperOverlayWindow();
-        _overlay.Show();
-        WindowState = WindowState.Minimized;
-    }
-
-    private void OnHoverColorChanged(object? sender, (Color color, int x, int y) data)
-    {
-        _overlay?.UpdateDisplay(data.color, data.x, data.y);
-    }
-
-    private void OnEyedropperCompleted(object? sender, System.EventArgs e)
-    {
-        _overlay?.Close();
-        _overlay = null;
-        WindowState = WindowState.Normal;
-        Activate();
+        vm.ForegroundEyedropperRequested += (_, _) => RunEyedropper(isForeground: true);
+        vm.BackgroundEyedropperRequested += (_, _) => RunEyedropper(isForeground: false);
     }
 
     protected override void OnUnloaded(RoutedEventArgs e)
@@ -53,8 +32,32 @@ public partial class MainWindow : Window
         base.OnUnloaded(e);
 
         if (_vm is null) return;
-        _vm.EyedropperStarted -= OnEyedropperStarted;
-        _vm.EyedropperCompleted -= OnEyedropperCompleted;
-        _vm.HoverColorChanged -= OnHoverColorChanged;
+        _vm.ForegroundEyedropperRequested -= (_, _) => RunEyedropper(isForeground: true);
+        _vm.BackgroundEyedropperRequested -= (_, _) => RunEyedropper(isForeground: false);
+    }
+
+    private async void RunEyedropper(bool isForeground)
+    {
+        try
+        {
+            WindowState = WindowState.Minimized;
+
+            // Allow the minimise animation to complete before capturing the screen.
+            await System.Threading.Tasks.Task.Delay(300);
+
+            var capture = ScreenCapture.CaptureFullScreen();
+            if (capture is null) return;
+
+            var picker = new EyedropperScreenWindow(capture);
+            Color? picked = await picker.PickAsync();
+
+            if (picked.HasValue && DataContext is MainViewModel vm)
+                vm.ApplyPickedColor(picked.Value, isForeground);
+        }
+        finally
+        {
+            WindowState = WindowState.Normal;
+            Activate();
+        }
     }
 }

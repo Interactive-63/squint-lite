@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Avalonia.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -10,9 +9,8 @@ namespace SquintLite.ViewModels;
 
 public partial class MainViewModel : ViewModelBase
 {
-    public event EventHandler? EyedropperStarted;
-    public event EventHandler? EyedropperCompleted;
-    public event EventHandler<(Color color, int x, int y)>? HoverColorChanged;
+    public event EventHandler? ForegroundEyedropperRequested;
+    public event EventHandler? BackgroundEyedropperRequested;
 
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ForegroundBrush))]
@@ -99,31 +97,24 @@ public partial class MainViewModel : ViewModelBase
     public string GraphicalAAResult => GetResult(ContrastRatio, 3.0);
 
     [RelayCommand]
-    private async Task PickForegroundColorAsync()
+    private void RequestForegroundEyedropper()
     {
-        if (!EyedropperService.IsSupported) return;
-        EyedropperStarted?.Invoke(this, EventArgs.Empty);
-
-        using var service = new EyedropperService();
-        Color picked = await service.PickAsync(
-            (c, x, y) => HoverColorChanged?.Invoke(this, (c, x, y)));
-
-        ForegroundColor = picked;
-        EyedropperCompleted?.Invoke(this, EventArgs.Empty);
+        if (EyedropperService.IsSupported)
+            ForegroundEyedropperRequested?.Invoke(this, EventArgs.Empty);
     }
 
     [RelayCommand]
-    private async Task PickBackgroundColorAsync()
+    private void RequestBackgroundEyedropper()
     {
-        if (!EyedropperService.IsSupported) return;
-        EyedropperStarted?.Invoke(this, EventArgs.Empty);
+        if (EyedropperService.IsSupported)
+            BackgroundEyedropperRequested?.Invoke(this, EventArgs.Empty);
+    }
 
-        using var service = new EyedropperService();
-        Color picked = await service.PickAsync(
-            (c, x, y) => HoverColorChanged?.Invoke(this, (c, x, y)));
-
-        BackgroundColor = picked;
-        EyedropperCompleted?.Invoke(this, EventArgs.Empty);
+    // Called by the view once the user has picked a colour from the screen window.
+    public void ApplyPickedColor(Color color, bool isForeground)
+    {
+        if (isForeground) ForegroundColor = color;
+        else BackgroundColor = color;
     }
 
     private static string GetResult(double ratio, double threshold) =>
@@ -135,7 +126,8 @@ public partial class MainViewModel : ViewModelBase
         {
             Color fg = ForegroundColor;
             Color bg = Color.Parse(BackgroundHex);
-            return ContrastCalculator.GetContrastRatio(BlendForegroundOnBackground(fg, bg), bg);
+            Color eff = BlendForegroundOnBackground(fg, bg);
+            return ContrastCalculator.GetContrastRatio(eff, bg);
         }
         catch { return -1; }
     }

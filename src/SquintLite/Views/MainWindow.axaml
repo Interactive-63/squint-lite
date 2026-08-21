@@ -41,7 +41,7 @@
 
                                               />
                                 <Button Content="Pick from screen"
-                                        Command="{Binding PickForegroundColorCommand}"
+                                        Command="{Binding RequestForegroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Center"/>
@@ -69,7 +69,7 @@
                                               IsColorPreviewVisible="False"
                                               IsAccentColorsVisible="False"/>
                                 <Button Content="Pick from screen"
-                                        Command="{Binding PickBackgroundColorCommand}"
+                                        Command="{Binding RequestBackgroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Center"/>
