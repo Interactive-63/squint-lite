@@ -12,6 +12,91 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+
+        <!-- ColourView Tab Styling -->
+        <Style Selector="ColorView TabControl">
+            <Setter Property="Background" Value="#2A3F54"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="CornerRadius" Value="6"/>
+        </Style>
+
+        <Style Selector="ColorView TabItem">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#60FFFFFF"/>
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+        </Style>
+
+        <Style Selector="ColorView TabItem:pointerover">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="Foreground" Value="#BBFFFFFF"/>
+        </Style>
+
+        <Style Selector="ColorView TabItem:selected">
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="ColorView TabItem:selected /template/ Border#PART_SelectedPipe">
+            <Setter Property="Background" Value="#4A7FA8"/>
+        </Style>
+
+        <!-- ColorView Component Tab Radiobutton -->
+        <Style Selector="ColorView /template/ RadioButton">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#60FFFFFF"/>
+            <Setter Property="CornerRadius" Value="4" />
+        </Style>
+
+        <Style Selector="ColorView /template/ RadioButton:checked /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ RadioButton:unchecked:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="Foreground" Value="#BBFFFFFF"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ RadioButton:checked:pointerover /template/ ContentPresenter">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+        </Style>
+
+        <!-- ColorView Component Tab Hex Textbox: Working -->
+        <Style Selector="ColorView /template/ TextBox">
+            <Setter Property="Background" Value="#1A2D3D"/>
+            <Setter Property="BorderBrush" Value="#2A4A62"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="BorderBrush" Value="#4A7FA8"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="BorderBrush" Value="#2A4A62"/>
+        </Style>
+
+        <!-- ColorView Component Tab NumericUpDown R,G,B,A entry fields: Working-->
+        <Style Selector="ColorView /template/ NumericUpDown">
+            <Setter Property="Background" Value="#1A2D3D"/>
+            <Setter Property="BorderBrush" Value="#2A4A62"/>
+            <Setter Property="Foreground" Value="#E0E0E0"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ NumericUpDown /template/ TextBox:focus /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="BorderBrush" Value="#4A7FA8"/>
+        </Style>
+
+        <Style Selector="ColorView /template/ NumericUpDown /template/ TextBox:pointerover /template/ Border#PART_BorderElement">
+            <Setter Property="Background" Value="#1A3347"/>
+            <Setter Property="BorderBrush" Value="#2A4A62"/>
+        </Style>
+
+
         <!-- Swatch button: scale on hover and press -->
         <Style Selector="Button.swatch-btn">
             <Setter Property="Transitions">
@@ -82,5 +167,7 @@
             <Setter Property="Background" Value="#162130"/>
             <Setter Property="RenderTransform" Value="scale(0.98)"/>
         </Style>
+
+
     </Application.Styles>
 </Application>

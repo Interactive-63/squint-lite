@@ -4,6 +4,7 @@
         xmlns:s="using:SquintLite.Services"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:ic="using:FluentIcons.Avalonia"
         mc:Ignorable="d"
         d:DesignWidth="360"
         d:DesignHeight="510"
@@ -42,17 +43,28 @@
                                 </ControlTheme>
                             </Flyout.FlyoutPresenterTheme>
                             <StackPanel Spacing="0">
+                                <StackPanel.Resources>
+                                    <SolidColorBrush x:Key="TextControlForegroundDisabled" Color="#7AADCC"/>
+                                    <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#1C3448"/>
+                                    <SolidColorBrush x:Key="TextControlBorderBrush" Color="#2A4A62"/>
+                                </StackPanel.Resources>
                                 <ColorView Color="{Binding ForegroundColor, Mode=TwoWay}"
                                            IsColorPaletteVisible="False"
                                            IsColorPreviewVisible="False"
                                            IsAccentColorsVisible="False"
-                                           Margin="10,10,10,0"/>
+                                           Margin="10,10,10,0"
+                                           CornerRadius="4"
+                                           ColorSpectrumShape="Ring"/>
                                 <Border Height="1" Background="#2A3F54" Margin="0,10,0,0"/>
                                 <Button Classes="eyedropper-btn"
-                                        Content="Pick from screen"
                                         Command="{Binding RequestForegroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
-                                        Margin="10,10,10,10"/>
+                                        Margin="10,10,10,10">
+                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                                        <TextBlock Text="Pick from screen" VerticalAlignment="Center"/>
+                                        <ic:FluentIcon Icon="Eyedropper" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -83,18 +95,29 @@
                                 </ControlTheme>
                             </Flyout.FlyoutPresenterTheme>
                             <StackPanel Spacing="0">
+                                <StackPanel.Resources>
+                                    <SolidColorBrush x:Key="TextControlForegroundDisabled" Color="#7AADCC"/>
+                                    <SolidColorBrush x:Key="TextControlBackgroundDisabled" Color="#1C3448"/>
+                                    <SolidColorBrush x:Key="TextControlBorderBrush" Color="#2A4A62"/>
+                                </StackPanel.Resources>
                                 <ColorView Color="{Binding BackgroundColor, Mode=TwoWay}"
                                            IsColorPaletteVisible="False"
                                            IsColorPreviewVisible="False"
                                            IsAccentColorsVisible="False"
                                            IsAlphaVisible="False"
-                                           Margin="10,10,10,0"/>
+                                           Margin="10,10,10,0"
+                                           CornerRadius="4"
+                                           ColorSpectrumShape="Ring"/>
                                 <Border Height="1" Background="#2A3F54" Margin="0,10,0,0"/>
                                 <Button Classes="eyedropper-btn"
-                                        Content="Pick from screen"
                                         Command="{Binding RequestBackgroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
-                                        Margin="10,10,10,10"/>
+                                        Margin="10,10,10,10">
+                                    <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Center">
+                                        <TextBlock Text="Pick from screen" VerticalAlignment="Center"/>
+                                        <ic:FluentIcon Icon="Eyedropper" />
+                                    </StackPanel>
+                                </Button>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
