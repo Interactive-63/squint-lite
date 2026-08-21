@@ -32,7 +32,7 @@
                 <TextBlock Text="Foreground" FontSize="11" HorizontalAlignment="Center"/>
                 <Button HorizontalAlignment="Stretch" Padding="0" Classes="swatch-btn">
                     <Button.Flyout>
-                        <Flyout Placement="RightEdgeAlignedTop">
+                        <Flyout Placement="LeftEdgeAlignedTop">
                             <Flyout.FlyoutPresenterTheme>
                                 <ControlTheme TargetType="FlyoutPresenter">
                                     <Setter Property="Background" Value="#152131"/>
