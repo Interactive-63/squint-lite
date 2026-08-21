@@ -6,13 +6,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         d:DesignWidth="360"
-        d:DesignHeight="540"
+        d:DesignHeight="510"
         x:Class="SquintLite.Views.MainWindow"
         x:DataType="vm:MainViewModel"
-        Icon="/Assets/avalonia-logo.ico"
+        Icon="/Assets/favicon.ico"
         Title="SquintLite"
         Width="360"
-        Height="540"
+        Height="510"
         CanResize="False"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
@@ -28,23 +28,31 @@
         <Grid ColumnDefinitions="*,8,*" Margin="0,0,0,8">
 
             <StackPanel Grid.Column="0" Spacing="4">
-                <TextBlock Text="Foreground" FontSize="11" Opacity="0.65"/>
-                <Button HorizontalAlignment="Stretch" Padding="0">
+                <TextBlock Text="Foreground" FontSize="11" HorizontalAlignment="Center"/>
+                <Button HorizontalAlignment="Stretch" Padding="0" Classes="swatch-btn">
                     <Button.Flyout>
-                        <Flyout>
-                            <StackPanel Spacing="8">
+                        <Flyout Placement="RightEdgeAlignedTop">
+                            <Flyout.FlyoutPresenterTheme>
+                                <ControlTheme TargetType="FlyoutPresenter">
+                                    <Setter Property="Background" Value="#152131"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="CornerRadius" Value="12"/>
+                                    <Setter Property="BorderBrush" Value="#4A7FA8"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </ControlTheme>
+                            </Flyout.FlyoutPresenterTheme>
+                            <StackPanel Spacing="0">
                                 <ColorView Color="{Binding ForegroundColor, Mode=TwoWay}"
-                                              HorizontalAlignment="Stretch"
-                                              IsColorPaletteVisible="False"
-                                              IsColorPreviewVisible="False"
-                                              IsAccentColorsVisible="False"
-
-                                              />
-                                <Button Content="Pick from screen"
+                                           IsColorPaletteVisible="False"
+                                           IsColorPreviewVisible="False"
+                                           IsAccentColorsVisible="False"
+                                           Margin="10,10,10,0"/>
+                                <Border Height="1" Background="#2A3F54" Margin="0,10,0,0"/>
+                                <Button Classes="eyedropper-btn"
+                                        Content="Pick from screen"
                                         Command="{Binding RequestForegroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Center"/>
+                                        Margin="10,10,10,10"/>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
@@ -52,31 +60,49 @@
                     <Panel Height="44">
                         <Border CornerRadius="4" Background="{Binding BackgroundBrush}"/>
                         <Border CornerRadius="4" Background="{Binding ForegroundBrush}"/>
+                        <Border CornerRadius="4"
+                                BorderThickness="1.5"
+                                BorderBrush="#50808080"
+                                IsHitTestVisible="False"/>
                     </Panel>
                 </Button>
             </StackPanel>
 
             <StackPanel Grid.Column="2" Spacing="4">
-                <TextBlock Text="Background" FontSize="11" Opacity="0.65"/>
-                <Button HorizontalAlignment="Stretch" Padding="0">
+                <TextBlock Text="Background" FontSize="11" HorizontalAlignment="Center"/>
+                <Button HorizontalAlignment="Stretch" Padding="0" Classes="swatch-btn">
                     <Button.Flyout>
-                        <Flyout>
-                            <StackPanel Spacing="8">
+                        <Flyout Placement="RightEdgeAlignedTop">
+                            <Flyout.FlyoutPresenterTheme>
+                                <ControlTheme TargetType="FlyoutPresenter">
+                                    <Setter Property="Background" Value="#152131"/>
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="CornerRadius" Value="12"/>
+                                    <Setter Property="BorderBrush" Value="#4A7FA8"/>
+                                    <Setter Property="BorderThickness" Value="1"/>
+                                </ControlTheme>
+                            </Flyout.FlyoutPresenterTheme>
+                            <StackPanel Spacing="0">
                                 <ColorView Color="{Binding BackgroundColor, Mode=TwoWay}"
-                                              HorizontalAlignment="Stretch"
-                                              IsAlphaVisible="False"
-                                              IsColorPaletteVisible="False"
-                                              IsColorPreviewVisible="False"
-                                              IsAccentColorsVisible="False"/>
-                                <Button Content="Pick from screen"
+                                           IsColorPaletteVisible="False"
+                                           IsColorPreviewVisible="False"
+                                           IsAccentColorsVisible="False"
+                                           IsAlphaVisible="False"
+                                           Margin="10,10,10,0"/>
+                                <Border Height="1" Background="#2A3F54" Margin="0,10,0,0"/>
+                                <Button Classes="eyedropper-btn"
+                                        Content="Pick from screen"
                                         Command="{Binding RequestBackgroundEyedropperCommand}"
                                         IsVisible="{x:Static s:EyedropperService.IsSupported}"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Center"/>
+                                        Margin="10,10,10,10"/>
                             </StackPanel>
                         </Flyout>
                     </Button.Flyout>
-                    <Border Height="44" CornerRadius="4" Background="{Binding BackgroundBrush}"/>
+                    <Border Height="44"
+                            CornerRadius="4"
+                            Background="{Binding BackgroundBrush}"
+                            BorderBrush="#50808080"
+                            BorderThickness="1.5"/>                
                 </Button>
             </StackPanel>
 
@@ -84,25 +110,28 @@
 
         <!-- Hex inputs -->
         <Grid ColumnDefinitions="*,8,*" Margin="0,0,0,10">
-            <TextBox Grid.Column="0"
-                     Text="{Binding ForegroundHex}"
-                     FontSize="12"
-                     HorizontalContentAlignment="Center"
-                     MaxLength="7"/>
-            <TextBox Grid.Column="2"
-                     Text="{Binding BackgroundHex}"
-                     FontSize="12"
-                     HorizontalContentAlignment="Center"
-                     MaxLength="7"/>
+            <TextBox x:Name="ForegroundHexInput" 
+                    Grid.Column="0"
+                    Text="{Binding ForegroundHex}"
+                    FontSize="12"
+                    HorizontalContentAlignment="Center"
+                    MaxLength="7"/>
+            <TextBox x:Name="BackgroundHexInput"
+                    Grid.Column="2"
+                    Text="{Binding BackgroundHex}"
+                    FontSize="12"
+                    HorizontalContentAlignment="Center"
+                    MaxLength="7"/>
         </Grid>
 
         <!-- Contrast ratio display -->
-        <Border CornerRadius="4"
+        <Border Classes="ratio-display"
+                CornerRadius="4"
                 Padding="20,10"
                 HorizontalAlignment="Center"
                 Margin="0,0,0,10"
                 BorderThickness="2"
-                BorderBrush="#30808080">
+                BorderBrush="{Binding RatioDisplayBrush}">
             <StackPanel HorizontalAlignment="Center" Spacing="2">
                 <TextBlock Text="Contrast Ratio"
                            FontSize="11"
@@ -116,7 +145,7 @@
         </Border>
 
         <!-- Section separator -->
-        <Border Height="1" Background="#20808080" Margin="0,0,0,8"/>
+        <Border Height="2" Background="#901C2B3A" Margin="0,0,0,8"/>
 
         <!-- Normal Text: AA requires 4.5:1, AAA requires 7.0:1 -->
         <Grid ColumnDefinitions="130,8,*" MinHeight="58" Margin="0,0,0,8">
@@ -124,9 +153,29 @@
                 <TextBlock Text="Normal Text" FontWeight="SemiBold" FontSize="12"/>
                 <Grid ColumnDefinitions="Auto,8,Auto" RowDefinitions="Auto,5,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="WCAG AA:" FontSize="11" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding NormalTextAAResult}" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Grid.Row="0" Grid.Column="2"
+                            Classes="result-badge"
+                            Background="{Binding NormalTextAABadge}"
+                            CornerRadius="3"
+                            Padding="7,2"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding NormalTextAAResult}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </Border>
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="WCAG AAA:" FontSize="11" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding NormalTextAAAResult}" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Grid.Row="2" Grid.Column="2"
+                            Classes="result-badge"
+                            Background="{Binding NormalTextAAABadge}"
+                            CornerRadius="3"
+                            Padding="7,2"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding NormalTextAAAResult}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </Border>
                 </Grid>
             </StackPanel>
             <Border Grid.Column="2" CornerRadius="4" Padding="8" Background="{Binding BackgroundBrush}">
@@ -139,18 +188,38 @@
         </Grid>
 
         <!-- Section separator -->
-        <Border Height="1" Background="#20808080" Margin="0,0,0,8"/>
+        <Border Height="2" Background="#901C2B3A" Margin="0,0,0,8"/>
 
         <!-- Large Text: AA requires 3.0:1, AAA requires 4.5:1 -->
         <!-- 24px = 18pt at 96 DPI, satisfying the WCAG large text threshold at any weight -->
         <Grid ColumnDefinitions="130,8,*" MinHeight="58" Margin="0,0,0,8">
             <StackPanel Grid.Column="0" Spacing="5" VerticalAlignment="Center">
                 <TextBlock Text="Large Text" FontWeight="SemiBold" FontSize="12"/>
-                <Grid ColumnDefinitions="Auto,8,Auto" RowDefinitions="Auto,5,Auto">
+                <Grid ColumnDefinitions="70,8,Auto" RowDefinitions="Auto,5,Auto">
                     <TextBlock Grid.Row="0" Grid.Column="0" Text="WCAG AA:" FontSize="11" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="0" Grid.Column="2" Text="{Binding LargeTextAAResult}" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Grid.Row="0" Grid.Column="2"
+                            Classes="result-badge"
+                            Background="{Binding LargeTextAABadge}"
+                            CornerRadius="3"
+                            Padding="7,2"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding LargeTextAAResult}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </Border>
                     <TextBlock Grid.Row="2" Grid.Column="0" Text="WCAG AAA:" FontSize="11" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Row="2" Grid.Column="2" Text="{Binding LargeTextAAAResult}" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Grid.Row="2" Grid.Column="2"
+                            Classes="result-badge"
+                            Background="{Binding LargeTextAAABadge}"
+                            CornerRadius="3"
+                            Padding="7,2"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding LargeTextAAAResult}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </Border>                
                 </Grid>
             </StackPanel>
             <Border Grid.Column="2" CornerRadius="4" Padding="8" Background="{Binding BackgroundBrush}">
@@ -164,7 +233,7 @@
         </Grid>
 
         <!-- Section separator -->
-        <Border Height="1" Background="#20808080" Margin="0,0,0,8"/>
+        <Border Height="2" Background="#901C2B3A" Margin="0,0,0,8"/>
 
         <!-- Graphical Objects and UI Components: AA requires 3.0:1, no AAA requirement -->
         <Grid ColumnDefinitions="130,8,*" MinHeight="80">
@@ -175,7 +244,17 @@
                 </StackPanel>
                 <Grid ColumnDefinitions="Auto,8,Auto">
                     <TextBlock Grid.Column="0" Text="WCAG AA:" FontSize="11" VerticalAlignment="Center"/>
-                    <TextBlock Grid.Column="2" Text="{Binding GraphicalAAResult}" FontSize="11" VerticalAlignment="Center"/>
+                    <Border Grid.Column="2"
+                            Classes="result-badge"
+                            Background="{Binding GraphicalAABadge}"
+                            CornerRadius="3"
+                            Padding="7,2"
+                            VerticalAlignment="Center">
+                        <TextBlock Text="{Binding GraphicalAAResult}"
+                                   FontSize="11"
+                                   FontWeight="SemiBold"
+                                   Foreground="White"/>
+                    </Border>                
                 </Grid>
             </StackPanel>
             <Border Grid.Column="2" CornerRadius="4" Padding="8" Background="{Binding BackgroundBrush}">

@@ -12,6 +12,11 @@ public partial class MainViewModel : ViewModelBase
     public event EventHandler? ForegroundEyedropperRequested;
     public event EventHandler? BackgroundEyedropperRequested;
 
+    private static readonly SolidColorBrush PassBrush = new(Color.Parse("#2E7D32"));
+    private static readonly SolidColorBrush FailBrush = new(Color.Parse("#C62828"));
+    private static readonly SolidColorBrush WarningBrush = new(Color.Parse("#E65100"));
+    private static readonly SolidColorBrush PendingBrush = new(Color.Parse("#4A4A4A"));
+
     [ObservableProperty]
     [NotifyPropertyChangedFor(nameof(ForegroundBrush))]
     [NotifyPropertyChangedFor(nameof(ForegroundColor))]
@@ -22,6 +27,12 @@ public partial class MainViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(LargeTextAAResult))]
     [NotifyPropertyChangedFor(nameof(LargeTextAAAResult))]
     [NotifyPropertyChangedFor(nameof(GraphicalAAResult))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(GraphicalAABadge))]
+    [NotifyPropertyChangedFor(nameof(RatioDisplayBrush))]
     public partial string ForegroundHex { get; set; } = "#000000";
 
     [ObservableProperty]
@@ -34,6 +45,12 @@ public partial class MainViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(LargeTextAAResult))]
     [NotifyPropertyChangedFor(nameof(LargeTextAAAResult))]
     [NotifyPropertyChangedFor(nameof(GraphicalAAResult))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(GraphicalAABadge))]
+    [NotifyPropertyChangedFor(nameof(RatioDisplayBrush))]
     public partial double ForegroundAlpha { get; set; } = 1.0;
 
     [ObservableProperty]
@@ -46,6 +63,12 @@ public partial class MainViewModel : ViewModelBase
     [NotifyPropertyChangedFor(nameof(LargeTextAAResult))]
     [NotifyPropertyChangedFor(nameof(LargeTextAAAResult))]
     [NotifyPropertyChangedFor(nameof(GraphicalAAResult))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(NormalTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAABadge))]
+    [NotifyPropertyChangedFor(nameof(LargeTextAAABadge))]
+    [NotifyPropertyChangedFor(nameof(GraphicalAABadge))]
+    [NotifyPropertyChangedFor(nameof(RatioDisplayBrush))]
     public partial string BackgroundHex { get; set; } = "#FFFFFF";
 
     public Color ForegroundColor
@@ -90,11 +113,26 @@ public partial class MainViewModel : ViewModelBase
     public string ContrastRatioDisplay =>
         ContrastRatio >= 0 ? $"{ContrastRatio:F2}:1" : "-";
 
+    // Text result strings
     public string NormalTextAAResult => GetResult(ContrastRatio, 4.5);
     public string NormalTextAAAResult => GetResult(ContrastRatio, 7.0);
     public string LargeTextAAResult => GetResult(ContrastRatio, 3.0);
     public string LargeTextAAAResult => GetResult(ContrastRatio, 4.5);
     public string GraphicalAAResult => GetResult(ContrastRatio, 3.0);
+
+    // Badge background brushes
+    public SolidColorBrush NormalTextAABadge => GetBadgeBrush(ContrastRatio, 4.5);
+    public SolidColorBrush NormalTextAAABadge => GetBadgeBrush(ContrastRatio, 7.0);
+    public SolidColorBrush LargeTextAABadge => GetBadgeBrush(ContrastRatio, 3.0);
+    public SolidColorBrush LargeTextAAABadge => GetBadgeBrush(ContrastRatio, 4.5);
+    public SolidColorBrush GraphicalAABadge => GetBadgeBrush(ContrastRatio, 3.0);
+
+    // Ratio box border: green for AAA-level pass, amber for AA-only, red for fail.
+    public SolidColorBrush RatioDisplayBrush =>
+        ContrastRatio < 0 ? PendingBrush :
+        ContrastRatio >= 7.0 ? PassBrush :
+        ContrastRatio >= 4.5 ? WarningBrush :
+                               FailBrush;
 
     [RelayCommand]
     private void RequestForegroundEyedropper()
@@ -110,7 +148,6 @@ public partial class MainViewModel : ViewModelBase
             BackgroundEyedropperRequested?.Invoke(this, EventArgs.Empty);
     }
 
-    // Called by the view once the user has picked a colour from the screen window.
     public void ApplyPickedColor(Color color, bool isForeground)
     {
         if (isForeground) ForegroundColor = color;
@@ -119,6 +156,9 @@ public partial class MainViewModel : ViewModelBase
 
     private static string GetResult(double ratio, double threshold) =>
         ratio < 0 ? "-" : ratio >= threshold ? "Pass" : "Fail";
+
+    private static SolidColorBrush GetBadgeBrush(double ratio, double threshold) =>
+        ratio < 0 ? PendingBrush : ratio >= threshold ? PassBrush : FailBrush;
 
     private double ComputeContrastRatio()
     {

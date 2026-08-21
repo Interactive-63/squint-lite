@@ -12,5 +12,75 @@
     <Application.Styles>
         <FluentTheme />
         <StyleInclude Source="avares://Avalonia.Controls.ColorPicker/Themes/Fluent/Fluent.xaml" />
+        <!-- Swatch button: scale on hover and press -->
+        <Style Selector="Button.swatch-btn">
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <TransformOperationsTransition Property="RenderTransform"
+                                                       Duration="0:0:0.18"
+                                                       Easing="CubicEaseOut"/>
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="Button.swatch-btn:pointerover">
+            <Setter Property="RenderTransform" Value="scale(1.05)"/>
+        </Style>
+        <Style Selector="Button.swatch-btn:pressed">
+            <Setter Property="RenderTransform" Value="scale(0.95)"/>
+        </Style>
+
+        <!-- Badge border: smooth background colour transition on ratio change -->
+        <Style Selector="Border.result-badge">
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <BrushTransition Property="Background"
+                                         Duration="0:0:0.50"
+                                         Easing="CubicEaseInOut"/>
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Ratio display: smooth border colour transition -->
+        <Style Selector="Border.ratio-display">
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <BrushTransition Property="BorderBrush"
+                                         Duration="0:0:0.5"
+                                         Easing="CubicEaseInOut"/>
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Eyedropper button: -->
+        <Style Selector="Button.eyedropper-btn">
+            <Setter Property="Background" Value="#2A3F54"/>
+            <Setter Property="Foreground" Value="#FFFFFF"/>
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="12,8"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="Transitions">
+                <Setter.Value>
+                    <Transitions>
+                        <BrushTransition Property="Background" Duration="0:0:0.12"/>
+                        <TransformOperationsTransition Property="RenderTransform" Duration="0:0:0.1" Easing="CubicEaseOut"/>
+                    </Transitions>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style Selector="Button.eyedropper-btn:pointerover">
+            <Setter Property="Background" Value="#3D5F7A"/>
+            <Setter Property="RenderTransform" Value="scale(1.02)"/>
+        </Style>
+        <Style Selector="Button.eyedropper-btn:pressed">
+            <Setter Property="Background" Value="#162130"/>
+            <Setter Property="RenderTransform" Value="scale(0.98)"/>
+        </Style>
     </Application.Styles>
 </Application>
