@@ -40,8 +40,8 @@
     },
     "PublishSettings": {
         "Configuration": "Release",
-        "PublishSingleFile": "False",
-        "PublishReadyToRun": "False",
+        "PublishSingleFile": "True",
+        "PublishReadyToRun": "True",
         "ExtraBuildProperties": {}
     }
 }
