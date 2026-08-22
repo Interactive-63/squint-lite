@@ -11,6 +11,8 @@
     <ApplicationId>com.interactive63.squintlite</ApplicationId>
     <ApplicationDisplayVersion>1.0.0</ApplicationDisplayVersion>
     <Copyright>Copyright © Interactive 63</Copyright>
+    <ApplicationIcon>build\icons\favicon.ico</ApplicationIcon>
+    <DefineConstants Condition="$([MSBuild]::IsOSPlatform('Windows'))">$(DefineConstants);WINDOWS</DefineConstants>
   </PropertyGroup>
 
   <ItemGroup>

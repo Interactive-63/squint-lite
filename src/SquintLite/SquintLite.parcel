@@ -1,0 +1,47 @@
+{
+    "GeneralSettings": {
+        "NetProjectPath": "SquintLite.csproj",
+        "PackageName": "SquintLite",
+        "AssemblyName": {
+            "$type": "msbuild",
+            "property": "AssemblyName"
+        },
+        "ApplicationName": "SquintLite",
+        "Version": "1.0.0",
+        "Icon": "build/icons/favicon.ico",
+        "Company": "Interactive 63"
+    },
+    "LinuxSettings": {
+        "CreateBinSymlink": "True"
+    },
+    "Win32Settings": {
+        "InstallerIcon": "build/icons/favicon.ico",
+        "InstallerRequiresAdmin": "False"
+    },
+    "MacOsSettings": {
+        "CreateBundle": true,
+        "BundleIdentifier": "com.interactive63.squintlite",
+        "BundleCategory": "GraphicsDesign",
+        "AppIcon": "build/icons/favicon.icns",
+        "DmgLayout": {
+            "X": 100,
+            "Y": 100,
+            "Width": 660,
+            "Height": 422,
+            "IconSize": 128,
+            "TextSize": 12,
+            "BundlePositionX": 173,
+            "BundlePositionY": 231,
+            "ApplicationsPositionX": 485,
+            "ApplicationsPositionY": 231
+        },
+        "SigningCredentialsType": "AdHoc",
+        "SignDmg": "False"
+    },
+    "PublishSettings": {
+        "Configuration": "Release",
+        "PublishSingleFile": "False",
+        "PublishReadyToRun": "False",
+        "ExtraBuildProperties": {}
+    }
+}

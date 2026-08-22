@@ -1,3 +1,5 @@
+#if WINDOWS
+
 using System;
 using System.Runtime.InteropServices;
 using Avalonia;
@@ -91,3 +93,5 @@ public static class ScreenCapture
         return new ScreenCaptureData(bitmap, pixels, w, h);
     }
 }
+
+#endif

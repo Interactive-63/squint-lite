@@ -79,6 +79,7 @@ public partial class MainWindow : Window
 
     private async void RunEyedropper(bool isForeground)
     {
+    #if WINDOWS
         try
         {
             WindowState = WindowState.Minimized;
@@ -98,5 +99,8 @@ public partial class MainWindow : Window
             WindowState = WindowState.Normal;
             Activate();
         }
+    #else
+        await System.Threading.Tasks.Task.CompletedTask;
+    #endif
     }
 }
